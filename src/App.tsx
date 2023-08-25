@@ -12,22 +12,15 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import {Menu} from '@mui/icons-material';
 import {
-    createTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, deleteTodolistTC,
+    createTodolistTC,
+    deleteTodolistTC,
     FilterValuesType,
     getTodolistTC,
-    removeTodolistAC,
-    TodolistDomainType, createTodolistTH
+    TodolistDomainType,
+    updateTodolistTC
 } from './state/todolists-reducer'
-import {
-    createTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC, createTaskTC,
-    deleteTaskTC,
-    getTasksTC,
-    removeTaskAC, updateTaskStatusTC
-} from './state/tasks-reducer';
+import {createTaskTC, deleteTaskTC, updateTaskTC} from './state/tasks-reducer';
 import {useSelector} from 'react-redux';
 import {AppRootStateType, useAppDispatch} from './state/store';
 import {TaskStatuses, TaskType} from './api/todolists-api'
@@ -58,12 +51,12 @@ function App() {
     }, []);
 
     const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
-        const action = updateTaskStatusTC(todolistId,id,status);
+        const action = updateTaskTC(todolistId,id,{status});
         dispatch(action);
     }, []);
 
-    const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-        const action = changeTaskTitleAC(id, newTitle, todolistId);
+    const changeTaskTitle = useCallback(function (id: string, title: string, todolistId: string) {
+        const action = updateTaskTC(todolistId,id, {title});
         dispatch(action);
     }, []);
 
@@ -78,12 +71,12 @@ function App() {
     }, []);
 
     const changeTodolistTitle = useCallback(function (id: string, title: string) {
-        const action = changeTodolistTitleAC(id, title);
+        const action = updateTodolistTC(id, title);
         dispatch(action);
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-        const action = createTodolistTH(title);
+        const action = createTodolistTC(title);
         dispatch(action);
     }, [dispatch]);
 
